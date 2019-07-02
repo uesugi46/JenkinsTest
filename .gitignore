@@ -1,0 +1,41 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.class
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+out/
+
+### IntelliJ IDEA ###
+microservice-discovery-eureka/target/
+microservice-feign-account/target/
+microservice-feign-message/target/
+microservice-feign-organization/target/
+microservice-hystrix-dashboard/target/
+microservice-hystrix-turbine/target/
+microservice-provider-account/target/
+microservice-provider-message/target/
+microservice-provider-organization-manager/target/
+microservice-provider-organization-tree/target/
+microservice-zuul/target/
+target/

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.incrte</groupId>
+    <artifactId>message-bee</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>MessageBee</name>
+    <description>A message service like worker bees</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>microservice-discovery-eureka</module>
+        <module>microservice-provider-account</module>
+        <module>microservice-provider-message</module>
+        <module>microservice-provider-organization-manage</module>
+        <module>microservice-provider-organization-tree</module>
+        <module>microservice-feign-account</module>
+        <module>microservice-feign-message</module>
+        <module>microservice-feign-organization</module>
+        <module>microservice-zuul</module>
+        <module>microservice-hystrix-dashboard</module>
+        <module>microservice-hystrix-turbine</module>
+    </modules>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <docker.image.prefix>reg.incrte.com</docker.image.prefix>
+        <docker.registry.name>incrte</docker.registry.name>
+        <docker.repository>asia.gcr.io/message-bee</docker.repository>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>minimum</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+	    <plugin>
+    		<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-surefire-plugin</artifactId>
+    		<configuration>
+        		<skipTests>true</skipTests>
+    		</configuration>
+	    </plugin>			
+            <plugin>
+		<groupId>com.spotify</groupId>
+		<artifactId>docker-maven-plugin</artifactId>
+		<version>1.2.0</version>
+		<executions>
+		     <execution>
+			<id>build-image</id>
+			<phase>package</phase>
+			<goals>
+			   <goal>build</goal>
+			</goals>
+		     </execution>
+		     <execution>
+                           <id>tag-image</id>
+                           <phase>package</phase>
+                           <goals>
+                                    <goal>tag</goal>
+                           </goals>
+                           <configuration>
+                                    <image>${docker.repository}/${project.artifactId}</image>
+                                    <newName>${docker.repository}/${project.artifactId}:${project.version}</newName>
+                           </configuration>
+                        </execution>
+                        <execution>
+                           <id>push-image</id>
+                           <phase>deploy</phase>
+                           <goals>
+                                    <goal>push</goal>
+                           </goals>
+                            <configuration>
+                                    <imageName>${docker.repository}/${project.artifactId}:${project.version}</imageName>
+                           </configuration>
+                        </execution>
+		</executions>
+		<configuration>
+		        <imageName>${docker.repository}/${project.artifactId}</imageName>
+			<dockerDirectory>${project.basedir}/docker</dockerDirectory>
+			<dockerHost>unix:///var/run/docker.sock</dockerHost>
+			<dockerCertPath>docker</dockerCertPath>
+			<resources>
+				<resource>
+					<targetPath>/</targetPath>
+					<directory>${project.build.directory}</directory>
+					<include>minimum.jar</include>
+				</resource>
+			</resources>
+			<registryUrl>${docker.repository}</registryUrl>
+                           <pushImage>true</pushImage>
+		</configuration>
+	   </plugin>                           
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>

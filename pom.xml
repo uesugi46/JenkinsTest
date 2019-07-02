@@ -19,16 +19,6 @@
 
     <modules>
         <module>microservice-discovery-eureka</module>
-        <module>microservice-provider-account</module>
-        <module>microservice-provider-message</module>
-        <module>microservice-provider-organization-manage</module>
-        <module>microservice-provider-organization-tree</module>
-        <module>microservice-feign-account</module>
-        <module>microservice-feign-message</module>
-        <module>microservice-feign-organization</module>
-        <module>microservice-zuul</module>
-        <module>microservice-hystrix-dashboard</module>
-        <module>microservice-hystrix-turbine</module>
     </modules>
 
 
@@ -88,7 +78,7 @@
                            </goals>
                            <configuration>
                                     <image>${docker.repository}/${project.artifactId}</image>
-                                    <newName>${docker.repository}/${project.artifactId}:${project.version}</newName>
+                                    <newName>${docker.repository}/${project.artifactId}:${project.version}-test</newName>
                            </configuration>
                         </execution>
                         <execution>
@@ -98,7 +88,7 @@
                                     <goal>push</goal>
                            </goals>
                             <configuration>
-                                    <imageName>${docker.repository}/${project.artifactId}:${project.version}</imageName>
+                                    <imageName>${docker.repository}/${project.artifactId}:${project.version}-test</imageName>
                            </configuration>
                         </execution>
 		</executions>

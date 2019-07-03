@@ -29,7 +29,7 @@
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
         <docker.image.prefix>reg.incrte.com</docker.image.prefix>
         <docker.registry.name>incrte</docker.registry.name>
-        <docker.repository>asia.gcr.io/message-bee</docker.repository>
+        <docker.repository>asia.gcr.io/true-sprite-245602</docker.repository>
     </properties>
 
     <dependencyManagement>
